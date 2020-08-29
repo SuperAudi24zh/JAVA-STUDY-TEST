@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dashboard | Fire - Admin Template</title>
+    <link rel="stylesheet" href="../bootstrap/common/css/bootstrap.css">
+    <!--<link rel="stylesheet" href="../bootstrap/plugin/table/css/bootstrap-table.css">-->
+    <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="assets/css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../bootstrap/plugin/sweetalert/css/sweetalert2.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/validator/css/bootstrapValidator.css">
+    <script src="assets/vendor/js/jquery-2.1.1.min.js"></script>
+    <script src="assets/js/core.min.js"></script>
+
+    <script src="../bootstrap/common/js/bootstrap.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table-zh-CN.js"></script>
+    <script src="../bootstrap/plugin/sweetalert/js/sweetalert2.js"></script>
+    <script src="../bootstrap/plugin/validator/js/bootstrapValidator.js"></script>
+    <script src="../bootstrap/plugin/validator/js/language/zh_CN.js"></script>
+    <script src="../bootstrap/common/js/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/common/js/echarts.js"></script>
+    <!--<script src="../bootstrap/common/js/echarts-all.js"></script>-->
+
+</head>
+
+<body>
+<!--<div id="main" style="height: 500px;width: 500px"></div>-->
+<!-- Start: Header -->
+<div class="navbar" role="navigation">
+    <div class="container-fluid container-nav">
+        <!-- Navbar Action -->
+        <ul class="nav navbar-nav navbar-actions navbar-left">
+            <li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-th-large"></i></a></li>
+            <li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>
+        </ul>
+        <!-- Navbar Left -->
+        <div class="navbar-left">
+            <!-- Search Form -->
+            <form class="search navbar-form">
+                <div class="input-group input-search">
+                    <input type="text" class="form-control bk-radius" name="q" id="q" placeholder="Search...">
+                    <span class="input-group-btn">
+								<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+							</span>
+                </div>
+            </form>
+        </div>
+        <!-- Navbar Right -->
+        <div class="navbar-right">
+            <!-- Notifications -->
+            <ul class="notifications hidden-xs">
+                <!--<li>
+                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                        <i class="fa fa-tasks"></i>
+                        <span class="badge">10</span>
+                    </a>
+                    <ul class="dropdown-menu update-menu" role="menu">
+                        <li><a href="#"><i class="fa fa-database bk-fg-primary"></i> Database </a></li>
+                        <li><a href="#"><i class="fa fa-bar-chart-o bk-fg-primary"></i> Connection </a></li>
+                        <li><a href="#"><i class="fa fa-bell bk-fg-primary"></i> Notification </a></li>
+                        <li><a href="#"><i class="fa fa-envelope bk-fg-primary"></i> Message </a></li>
+                        <li><a href="#"><i class="fa fa-flash bk-fg-primary"></i> Traffic </a></li>
+                        <li><a href="#"><i class="fa fa-credit-card bk-fg-primary"></i> Invoices </a></li>
+                        <li><a href="#"><i class="fa fa-dollar bk-fg-primary"></i> Finances </a></li>
+                        <li><a href="#"><i class="fa fa-thumbs-o-up bk-fg-primary"></i> Orders </a></li>
+                        <li><a href="#"><i class="fa fa-folder bk-fg-primary"></i> Directories </a></li>
+                        <li><a href="#"><i class="fa fa-users bk-fg-primary"></i> Users </a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge">5</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-menu-header">
+                            <strong>Messages</strong>
+                            <div class="progress progress-xs  progress-striped active">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                    60%
+                                </div>
+                            </div>
+                        </li>
+                        <li class="avatar">
+                            <a href="page-inbox.html">
+                                <img class="avatar" src="../assets/img/avatar1.jpg" alt="" />
+                                <div><div class="point point-primary point-lg"></div>New message</div>
+                                <span><small>1 minute ago</small></span>
+                            </a>
+                        </li>
+                        <li class="avatar">
+                            <a href="page-inbox.html">
+                                <img class="avatar" src="../assets/img/avatar2.jpg" alt="" />
+                                <div><div class="point point-primary point-lg"></div>New message</div>
+                                <span><small>3 minute ago</small></span>
+                            </a>
+                        </li>
+                        <li class="avatar">
+                            <a href="page-inbox.html">
+                                <img class="avatar" src="../assets/img/avatar3.jpg" alt="" />
+                                <div><div class="point point-primary point-lg"></div>New message</div>
+                                <span><small>4 minute ago</small></span>
+                            </a>
+                        </li>
+                        <li class="avatar">
+                            <a href="page-inbox.html">
+                                <img class="avatar" src="../assets/img/avatar4.jpg" alt="" />
+                                <div><div class="point point-primary point-lg"></div>New message</div>
+                                <span><small>30 minute ago</small></span>
+                            </a>
+                        </li>
+                        <li class="avatar">
+                            <a href="page-inbox.html">
+                                <img class="avatar" src="../assets/img/avatar5.jpg" alt="" />
+                                <div><div class="point point-primary point-lg"></div>New message</div>
+                                <span><small>1 hours ago</small></span>
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-footer text-center">
+                            <a href="page-inbox.html">View all messages</a>
+                        </li>
+                    </ul>
+                </li>-->
+                <li>
+                    <ul class="dropdown-menu list-group">
+                        <li class="dropdown-menu-header">
+                            <strong>Notifications</strong>
+                            <div class="progress progress-xs  progress-striped active">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="60"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                    60%
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-item">
+                            <a href="page-inbox.html">
+                                <div class="pull-left">
+                                    <i class="fa fa-envelope-o bk-fg-primary"></i>
+                                </div>
+                                <div class="media-body clearfix">
+                                    <div>Unread Message</div>
+                                    <h6>You have 10 unread message</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-item">
+                            <a href="#">
+                                <div class="pull-left">
+                                    <i class="fa fa-cogs bk-fg-primary"></i>
+                                </div>
+                                <div class="media-body clearfix">
+                                    <div>New Settings</div>
+                                    <h6>There are new settings available</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-item">
+                            <a href="#">
+                                <div class="pull-left">
+                                    <i class="fa fa-fire bk-fg-primary"></i>
+                                </div>
+                                <div class="media-body clearfix">
+                                    <div>Update</div>
+                                    <h6>There are new updates available</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="list-item-last">
+                            <a href="#">
+                                <h6>Unread notifications</h6>
+                                <span class="badge">15</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- End Notifications -->
+            <!-- Userbox -->
+            <div class="userbox">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <div class="profile-info">
+                        <span class="name"></span>
+                    </div>
+                    <div class="profile-info">
+                        <span class="name">admin</span>
+                        <span class="role"><i class="fa fa-circle bk-fg-success"></i> Administrator</span>
+                    </div>
+                    <i class="fa custom-caret"></i>
+                </a>
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="dropdown-menu-header bk-bg-white bk-margin-top-15">
+                            <div class="progress progress-xs  progress-striped active">
+                                <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60"
+                                     aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                    60%
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="page-profile.html"><i class="fa fa-user"></i>个人</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench"></i>设置</a>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-file"></i>文件</a>
+                        </li>
+                        <li>
+                            <a href="adminlogin.html"><i class="fa fa-power-off"></i>退出登录</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- End Userbox -->
+        </div>
+        <!-- End Navbar Right -->
+    </div>
+</div>
+<!-- End: Header -->
+
+<!-- Start: Content -->
+<div class="container-fluid content">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-collapse">
+                <!-- Sidebar Header Logo-->
+                <div class="sidebar-header">
+                    <img src="assets/img/logo.png" class="img-responsive" alt=""/>
+                </div>
+                <!-- Sidebar Menu-->
+                <div class="sidebar-menu">
+                    <nav id="menu" class="nav-main" role="navigation">
+                        <ul class="nav nav-sidebar">
+                            <div class="panel-body text-center">
+                                <div class="flag">
+                                    <img src="assets/img/biaotitubiao.jpg" class="img-flags" alt="" width="65"
+                                         height="65"/>
+                                </div>
+                            </div>
+                            <li class="active">
+                                <a href="remotemonitor.html">
+                                    <i class="fa fa-laptop" aria-hidden="true"></i><span>Dashboard</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-copy" aria-hidden="true"></i><span>房间信息</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="house.html"><span class="text">当前信息</span></a></li>
+                                    <!--<li><a href="housemanager.html"><span class="text">历史数据</span></a></li>-->
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-tasks" aria-hidden="true"></i><span>设备管理</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="#"><span class="text">报警数据</span></a></li>
+                                    <li><a href="#"><span class="text">温度调节</span></a></li>
+                                    <li><a href="#"><span class="text">湿度调节</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-list-alt" aria-hidden="true"></i><span>历史数据</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="salehouse.html"><span class="text">表格查看</span></a></li>
+                                    <li><a href="salehousemanager.html"><span class="text">图形查看</span></a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-random" aria-hidden="true"></i><span>问题反馈</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="needhouse.html"><span class="text">上传问题信息</span></a></li>
+                                    <!--<li><a href="needhousemanager.html"><span class="text">需要租赁信息管理</span></a></li>-->
+                                </ul>
+                            </li>
+
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-table" aria-hidden="true"></i><span>系统日志</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="renthouse.html"><span class="text">日志信息</span></a></li>
+                                    <!--<li><a href="renthousemanager.html"><span class="text">出租房源信息管理</span></a></li>-->
+                                </ul>
+                            </li>
+                            <!--<li class="nav-parent">-->
+                            <!--<a>-->
+                            <!--<i class="fa fa-random" aria-hidden="true"></i><span>求购信息管理模块</span>-->
+                            <!--</a>-->
+                            <!--<ul class="nav nav-children">-->
+                            <!--<li><a href="buyhouse.html"><span class="text">求购信息查看</span></a></li>-->
+                            <!--<li><a href="buyhousemanager.html"><span class="text">求购信息管理</span></a></li>-->
+                            <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li class="nav-parent">-->
+                            <!--<a>-->
+                            <!--<i class="fa fa-random" aria-hidden="true"></i><span>需要租赁信息管理模块</span>-->
+                            <!--</a>-->
+                            <!--<ul class="nav nav-children">-->
+                            <!--<li><a href="needhouse.html"><span class="text">需要租赁信息查看</span></a></li>-->
+                            <!--<li><a href="needhousemanager.html"><span class="text">需要租赁信息管理</span></a></li>-->
+                            <!--</ul>-->
+                            <!--</li>-->
+
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-life-bouy" aria-hidden="true"></i><span>可扩展模块</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i><span>问题反馈</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i><span>。。。。</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-font" aria-hidden="true"></i><span>Typography</span>
+                                </a>
+                            </li>
+                            <li class="nav-parent">
+                                <a>
+                                    <i class="fa fa-bolt" aria-hidden="true"></i><span>Icons</span>
+                                </a>
+                                <ul class="nav nav-children">
+                                    <li><a href="#"><span class="text"> Font Awesome</span></a></li>
+                                    <li><a href="#"><span class="text"> Weather Icons</span></a></li>
+                                    <li><a href="#"><span class="text"> Glyphicons</span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- End Sidebar Menu-->
+            </div>
+            <!-- Sidebar Footer-->
+            <div class="sidebar-footer">
+                <div class="small-chart-visits">
+                    <div class="small-chart" id="sparklineLineVisits"></div>
+                    <div class="small-chart-info">
+                        <label>New Visits</label>
+                        <strong>70,79%</strong>
+                    </div>
+                    <script type="text/javascript">
+                        var sparklineLineVisitsData = [15, 16, 17, 19, 15, 25, 23, 35, 29, 15, 30, 45];
+                    </script>
+                </div>
+                <ul class="sidebar-terms bk-margin-top-10">
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+            <!-- End Sidebar Footer-->
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- Main Page -->
+        <div class="main ">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="pull-left">
+                    <ol class="breadcrumb visible-sm visible-md visible-lg">
+                        <li><a href="remotemonitor.html"><i class="icon fa fa-home"></i>Home</a></li>
+                        <li class="active"><i class="fa fa-laptop"></i>Dashboard</li>
+                    </ol>
+                </div>
+                <div class="pull-right">
+                    <h2>Dashboard</h2>
+                </div>
+            </div>
+            <!-- End Page Header -->
+
+            <div class="tpl-content-wrapper">
+                <!--<div class="panel-heading">
+                    <h3 class="panel-title">导演查询</h3>
+                </div>-->
+                <div class="panel panel-success">
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="name" placeholder="请输入用户姓名" class="form-control"
+                                       id="searchNameId">
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="button" class="btn btn-primary" value="用户查询" id="searchBtn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="btn-group" role="group">-->
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal"><span-->
+                <!--class="glyphicon glyphicon-plus"></span>增加-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-warning" id="updateId"><span-->
+                <!--class="glyphicon glyphicon-pencil"></span>修改-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-danger" id="deleteId"><span-->
+                <!--class="glyphicon glyphicon-remove"></span>删除-->
+                <!--</button>-->
+                <!--<button type="button" class="btn btn-default" id="poiId">批量导入用户信息</button>-->
+                <!--</div>-->
+
+
+                <div class="row">
+                    <table id="tableId">
+                        <p>叫来几个啊</p>
+                        <div id="echartsdivid" style="height: 500px;width: 500px"></div>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End Main Page -->
+
+    </div>
+</div>
+
+
+<script>
+    function creatBar() {
+        var mychar = echarts.init(document.getElementById("echartsdivid"));
+
+        // myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+        // var names=[];    //类别数组（实际用来盛放X轴坐标值）
+        // var nums=[];    //销量数组（实际用来盛放Y坐标值）
+
+        $.post('../findAllHouses.action', function (map) {
+            alert(123)
+            option = {
+                title: {
+                    text: '未来一周气温变化',
+                    subtext: '纯属虚构'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['最高气温', '最低气温']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        dataView: {readOnly: false},
+                        magicType: {type: ['line', 'bar']},
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                },
+                // yAxis: {
+                //     type: 'value',
+                //     axisLabel: {
+                //         formatter: '{value} °C'
+                //     }
+                // },
+                yAxis: [
+                    {
+                        name: '流量(m^3/s)',
+                        type: 'value',
+                        max: 500
+                    },
+                    {
+                        name: '降雨量(mm)',
+                        nameLocation: 'start',
+                        max: 5,
+                        type: 'value',
+                        inverse: true
+                    }
+                ],
+                series: [
+                    {
+                        name: '最高气温',
+                        type: 'line',
+                        data: [11, 11, 15, 13, 12, 13, 10],
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: '最大值'},
+                                {type: 'min', name: '最小值'}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'}
+                            ]
+                        }
+                    },
+                    {
+                        name: '最低气温',
+                        type: 'line',
+                        data: [1, -2, 2, 5, 3, 2, 0],
+                        markPoint: {
+                            data: [
+                                {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+                                {type: 'average', name: '平均值'},
+                                [{
+                                    symbol: 'none',
+                                    x: '90%',
+                                    yAxis: 'max'
+                                }, {
+                                    symbol: 'circle',
+                                    label: {
+                                        position: 'start',
+                                        formatter: '最大值'
+                                    },
+                                    type: 'max',
+                                    name: '最高点'
+                                }]
+                            ]
+                        }
+                    }
+                ]
+            };
+            mychar.setOption(option)
+        })
+    }
+
+    $(function () {
+        setInterval("creatBar()",2000);
+    })
+</script>
+
+</body>
+
+</html>

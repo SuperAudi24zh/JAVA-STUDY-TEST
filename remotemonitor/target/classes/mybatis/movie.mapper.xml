@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xufe.remotemonitor.mapper.IAdminMapper">
+    <resultMap id="adminMap" type="Admin">
+        <id property="id" column="admin_id"/>
+        <result property="name" column="admin_name"/>
+        <result property="password" column="admin_password"/>
+    </resultMap>
+
+    <resultMap id="houseMap" type="House">
+        <id property="id" column="house_id"/>
+        <result property="temperature" column="house_temperature"/>
+        <result property="humidity" column="house_humidity"/>
+        <result property="day" column="house_day"/>
+        <result property="time" column="house_time"/>
+        <result property="status" column="house_status"/>
+        <result property="ip" column="house_ip"/>
+    </resultMap>
+
+    <resultMap id="tempMap" type="Temp">
+        <id property="id" column="temp_id"/>
+        <result property="temperature" column="temp_temperature"/>
+        <result property="humidity" column="temp_humidity"/>
+        <result property="day" column="temp_day"/>
+        <result property="time" column="temp_time"/>
+        <result property="status" column="temp_status"/>
+        <result property="isread" column="temp_isread"/>
+    </resultMap>
+
+    <resultMap id="roomMap" type="Room">
+        <id property="id" column="room_id"/>
+        <result property="num" column="room_num"/>
+        <result property="principal" column="room_principal"/>
+        <result property="size" column="room_size"/>
+        <result property="principalphone" column="room_principalphone"/>
+        <result property="ip" column="room_houseip"/>
+        <!--<result property="room" column="room_num"></result>-->
+        <!--<association property="room" javaType="House"/>-->
+    </resultMap>
+
+    <resultMap id="houseroomMap" type="HouseRoom">
+        <id property="id" column="house_id"/>
+        <result property="num" column="room_num"/>
+        <result property="temperature" column="house_temperature"/>
+        <result property="humidity" column="house_humidity"/>
+        <result property="day" column="house_day"/>
+        <result property="time" column="house_time"/>
+        <result property="status" column="house_status"/>
+        <result property="principal" column="room_principal"/>
+        <result property="principalphone" column="room_principalphone"/>
+    </resultMap>
+
+    <insert id="addAdmin">
+        insert into admin_tab(admin_name,admin_password) values (#{name},#{password})
+    </insert>
+
+    <select id="findAdminAll" resultMap="adminMap">
+      select * from admin_tab
+    </select>
+
+    <select id="findAdminByNameAndPassword" resultMap="adminMap">
+        select * from admin_tab where admin_name=#{name} and admin_password=#{password}
+    </select>
+
+
+    <select id="findAllHouses" resultMap="houseMap">
+        select * from house_tab
+    </select>
+
+    <insert id="addHouses">
+        insert into house_tab(house_temperature,house_humidity,house_day,house_time,house_status,house_ip) values (#{temperature},#{humidity},#{day},#{time},#{status},#{ip})
+    </insert>
+    <delete id="deleteHouseByHouseIp">
+        delete from house_tab where house_ip=#{ip}
+    </delete>
+    <select id="findAbnormalHousesData" resultMap="houseroomMap">
+           select * from house_tab left join room_tab on house_status!='标准' WHERE house_ip=room_houseip ORDER BY house_day DESC
+    </select>
+    <select id="findAllHousesByHouseIp" resultMap="houseMap">
+        select * from house_tab where house_ip=#{ip}
+    </select>
+    <select id="findAbnormalHousesDataByRoomPrincipalOrRoomNum" resultMap="houseroomMap">
+        SELECT * FROM (select * from house_tab left join room_tab on house_status!='标准' WHERE house_ip=room_houseip) temptab
+        <where>
+            <if test="principal!=''">
+                and room_principal like concat('%',#{principal},'%')
+            </if>
+            <if test="num!=''">
+                and room_num like concat('%',#{num},'%')
+            </if>
+        </where>
+        ORDER BY house_day DESC
+    </select>
+
+    <insert id="addRoom">
+        insert into room_tab(room_num,room_principal,room_size,room_principalphone,room_houseip) values (#{num},#{principal},#{size},#{principalphone},#{ip})
+    </insert>
+
+    <delete id="deleteRoom">
+        delete from room_tab where room_id=#{id}
+    </delete>
+    <update id="updateRoom">
+        update room_tab set room_num=#{num},room_principal=#{principal},room_size=#{size},room_principalphone=#{principalphone} where room_id=#{id}
+    </update>
+    <select id="findAllRooms" resultMap="roomMap">
+        select room_id,room_num,room_principal,room_size,room_principalphone,room_houseip from room_tab
+    </select>
+    <select id="getRoomHouseIpByDeleteId" resultMap="roomMap">
+        select * from room_tab where room_id=#{id}
+    </select>
+    <select id="getRoomByRoomNum" resultMap="roomMap">
+        select * from room_tab where room_num=#{num}
+    </select>
+
+    <!--模糊查询-->
+    <select id="findRoomsByLikeNumOrPrincipal" resultMap="roomMap">
+        select * from room_tab
+        <where>
+            <if test="num!=''">
+                and room_num like concat('%',#{num},'%')
+            </if>
+            <if test="principal!=''">
+                and room_principal like concat('%',#{principal},'%')
+            </if>
+        </where>
+    </select>
+    <insert id="addTemp">
+        insert into temp_tab(temp_temperature,temp_humidity,temp_day,temp_time,temp_status,temp_isread) values (#{temperature},#{humidity},#{day},#{time},#{status},#{isread})
+    </insert>
+    <select id="findTempAlertData" resultMap="tempMap">
+        select * from temp_tab where temp_isread!='已读'
+    </select>
+    <update id="updataTemp">
+        update temp_tab set temp_isread='已读' where temp_isread='未读'
+    </update>
+</mapper>

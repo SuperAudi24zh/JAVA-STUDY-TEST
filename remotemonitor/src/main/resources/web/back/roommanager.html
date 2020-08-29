@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>房间信息管理</title>
+    <link rel="stylesheet" href="src/css/layui.css">
+    <link rel="stylesheet" href="../bootstrap/common/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/table/css/bootstrap-table.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/sweetalert/css/sweetalert2.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/validator/css/bootstrapValidator.css">
+    <script src="../bootstrap/common/js/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/common/js/bootstrap.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table-zh-CN.js"></script>
+    <script src="../bootstrap/plugin/sweetalert/js/sweetalert2.js"></script>
+    <script src="../bootstrap/plugin/validator/js/bootstrapValidator.js"></script>
+    <script src="../bootstrap/plugin/validator/js/language/zh_CN.js"></script>
+    <script src="../bootstrap/Vue/vue.js"></script>
+
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Remote Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">实时数据</a></li>
+            <li class="layui-nav-item"><a href="">桌面</a></li>
+            <li class="layui-nav-item"><a href="">常见问题</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件</a></dd>
+                    <dd><a href="">消息</a></dd>
+                    <dd><a href="">授权</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+            <li>
+                <a href="page-profile.html"><i class="fa fa-user"></i>个人</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-wrench"></i>设置</a>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-file"></i>文件</a>
+            </li>
+            <li>
+                <a href="adminlogin.html"><i class="fa fa-power-off"></i>退出登录</a>
+            </li>
+            </dl>
+            </li>
+        </ul>
+    </div>
+
+    <!--<div class="layui-side layui-bg-black">-->
+        <!--<div class="layui-side-scroll">-->
+            <!--&lt;!&ndash; 左侧导航区域（可配合layui已有的垂直导航） &ndash;&gt;-->
+            <!--<ul class="layui-nav layui-nav-tree" lay-filter="test">-->
+                <!--<li class="layui-nav-item layui-nav-itemed"  id="app">-->
+                    <!--<a class="" href="javascript:;">房间信息</a>-->
+                    <!--<dl class="layui-nav-child" >-->
+
+                        <!--<dd v-for="room in rooms"><a href="javascript:;">{{room}}</a></dd>-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间一</a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间二</a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="">超链接</a></dd>&ndash;&gt;-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--&lt;!&ndash;<li class="layui-nav-item layui-nav-itemed">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a class="" href="javascript:;">房间信息</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<dl class="layui-nav-child" v-for="(user,index) in rooms">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;">当前信息</a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间一</a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间二</a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;&lt;!&ndash;<dd><a href="">超链接</a></dd>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;</dl>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                <!--<li class="layui-nav-item">-->
+                    <!--<a href="javascript:;">设备管理</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd><a href="javascript:;">报警数据</a></dd>-->
+                        <!--<dd><a href="javascript:;">温度调节</a></dd>-->
+                        <!--<dd><a href="javascript:;">湿度调节</a></dd>-->
+                        <!--&lt;!&ndash;<dd><a href="">超链接</a></dd>&ndash;&gt;-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--<li class="layui-nav-item">-->
+                    <!--<a href="javascript:;">历史数据</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd><a href="javascript:;">表格查看</a></dd>-->
+                        <!--<dd><a href="javascript:;">图形查看</a></dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--<li class="layui-nav-item">-->
+                    <!--<a href="javascript:;">问题反馈</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd><a href="javascript:;">上传问题信息</a></dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--<li class="layui-nav-item">-->
+                    <!--<a href="javascript:;">系统日志</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd><a href="javascript:;">日志信息</a></dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--<li class="layui-nav-item"><a href="">可扩展模块</a></li>-->
+                <!--<li class="layui-nav-item"><a href="">。。。</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+
+    <!--</div>-->
+
+
+    <div class="layui-side layui-bg-black" id="app">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="remotemonitor.html">房间信息</a>
+                    <dl class="layui-nav-child">
+                        <dd v-for="room in rooms"><a href="remotemonitor.html" id="roomnumtxt" @click="creatBar(room)">{{room}}</a></dd>
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">异常数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="alertdata.html">报警数据</a></dd>
+                        <!--<dd><a href="javascript:;">温度调节</a></dd>-->
+                        <!--<dd><a href="javascript:;">湿度调节</a></dd>-->
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">房屋信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="roommanager.html">监测房间管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href=""  data-toggle="modal" data-target="#alertdatamodalid" id="alertDataId">异常告警数据
+                        <span style="color:yellow;font-weight:bold">
+                            <i class="fa fa-bullhorn" aria-hidden="true" style="color: #1c7430">
+
+                        </i>    {{alertnum}}</span>
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">历史数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">表格查看</a></dd>
+                        <dd><a href="javascript:;">图形查看</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统日志</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">日志信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">可扩展模块</a></li>
+                <li class="layui-nav-item"><a href="">。。。</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 30px;">
+            <div class="tpl-content-wrapper">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel panel-success">
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">监控房间信息</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="name" placeholder="请输入房间编号" class="form-control" id="searchNameId">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="desc" placeholder="请输入房间负责人姓名" class="form-control" id="searchDescId">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="button" class="btn btn-primary" value="查看" id="searchBtn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal"><span class="glyphicon glyphicon-plus"></span>增加</button>
+                    <button type="button" class="btn btn-warning" id="updateId"><span class="glyphicon glyphicon-pencil"></span>修改</button>
+                    <button type="button" class="btn btn-danger" id="deleteId"><span class="glyphicon glyphicon-remove"></span>删除</button>
+                </div>
+                <div class="row">
+                    <table id="tableId">
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--模态框区域-->
+    <!-- 添加模态框 -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addModalLabel">添加监控房间</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addFormId">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间编号名称</label>
+                            <div class="col-md-9">
+                                <input type="text" name="num" placeholder="请输入房间编号名称" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间负责人</label>
+                            <div class="col-md-9">
+                                <input type="text" name="principal" placeholder="请输入该房间负责人" class="form-control">
+                                <!--<textarea  name="desc" rows="6" class="form-control"></textarea>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间大小</label>
+                            <div class="col-md-9">
+                                <input type="text" name="size" placeholder="请输入该房间大小" class="form-control">
+
+                                <!--<input type="file" name="picUpload"  id="picId">-->
+                                <!--<input type="text" name="pic" id="picNameId" class="form-control">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">负责人联系方式</label>
+                            <div class="col-md-9">
+                                <input type="text" name="principalphone" placeholder="请输入负责人联系方式" class="form-control">
+                                <!--<input type="file" name="picUpload"  id="picId">-->
+                                <!--<input type="text" name="pic" id="picNameId" class="form-control">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间映射编号id</label>
+                            <div class="col-md-9">
+                                <input type="text" name="ip" placeholder="请输入影射值" class="form-control">
+                                <!--<input type="file" name="picUpload"  id="picId">-->
+                                <!--<input type="text" name="pic" id="picNameId" class="form-control">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input type="button"  value="添加房间信息" class="form-control btn btn-success" id="addConfirmId">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!-- 添加模态框end -->
+
+
+
+
+    <!----修改模态框  --->
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >修改监控房间信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="updateFormId">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">编号:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control"  name="id"  readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间编号名称:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入房间编号" name="num" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间负责人:</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" placeholder="请输入房间负责人" name="principal">
+                                <!--<textarea class="form-control" name="desc" rows="6"></textarea>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">房间大小</label>
+                            <div class="col-md-9">
+                                <input type="text" name="size" placeholder="请输入该房间大小" class="form-control">
+                                <!--<input type="file" name="picUpload"  id="picId">-->
+                                <!--<input type="text" name="pic" id="picNameId" class="form-control">-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">负责人联系方式</label>
+                            <div class="col-md-9">
+                                <input type="text" name="principalphone" placeholder="请输入负责人联系方式" class="form-control">
+                                <!--<input type="file" name="picUpload"  id="picId">-->
+                                <!--<input type="text" name="pic" id="picNameId" class="form-control">-->
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="control-label col-md-3">图片:</label>-->
+                            <!--<div class="col-md-9">-->
+                                <!--<input type="file" name="picUpload" id="updatePicId">-->
+                                <!--<input type="text" name="pic" class="form-control" id="updatePicNameId">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-4">
+                                <input type="button" class="form-control btn btn-primary" value="确定" id="updateConfirmId">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div><!----修改模态框end  --->
+
+
+
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © HouseRemotemonitor.com - 房间远程监控系统
+    </div>
+</div>
+<script src="src/layui.js"></script>
+
+<script>
+    $(function () {
+        new Vue({
+            el: "#app",
+            data: {
+                rooms: [],
+                alertnum: ''
+            },
+            created: function () {
+                this.find()
+            },
+            methods: {
+                find: function () {
+                    var _this = this;
+                    setTimeout(_this.find, 3 * 1000);
+                    $.ajax({
+                        url: '../findAllRoomNums.action',
+                        type: 'post',
+                        dataType: 'json',
+                        success: function (map) {
+                            _this.rooms = map.roomnum;
+                            _this.alertnum = map.alertdatanum;
+                        }
+                    })
+                },
+                // creatBar:function(num){
+                //     creatBarA(num)
+                // }
+            }
+        })
+    });
+
+
+    /*查找所有的JS*/
+    // $(function () {
+    //     new Vue({
+    //         el: "#app",
+    //         data: {
+    //             rooms: [],
+    //         },
+    //         created: function () {
+    //             var _this = this;
+    //             $.post('../findAllRoomNums.action', function (map) {
+    //                 _this.rooms = map.roomnum;
+    //             }, 'json');
+    //         }
+    //     })
+    //     // setInterval("creatBar()", 2000);
+    // });
+
+
+
+    /*查找所有的JS*/
+    // $.post('../findAllRoomNums.action', function (list) {
+    //     new Vue({
+    //         el: '#app',
+    //         data: {
+    //             rooms: list
+    //         }
+    //     });
+    // }, 'json');
+
+
+    /*全查询导演信息*/
+    $("#tableId").bootstrapTable({
+        url: '../findRooms.action',
+        pagination: true,
+        pageSize: 5,
+        pageList: [1, 5, 10],
+        search:true,
+        columns: [
+            {
+                checkbox: true
+            },
+            {
+                field: 'id',
+                title: '编号'
+            },
+            {
+                field: 'num',
+                title: '房间编号'
+            },
+            {
+                field: 'principal',
+                title: '房间负责人'
+            },
+            {
+                field: 'size',
+                title: '房间大小',
+                align : 'center',
+                valign : 'middle',
+                sortable : true
+            },
+            {
+                field: 'principalphone',
+                title: '房间负责人联系方式'
+            }
+        ]
+    });
+
+
+    /*添加房间信息开始*/
+    $("#addConfirmId").click(function () {
+        var _data=$("#addFormId").serialize();
+        // alert(_data)
+        $.ajax({
+            url:'../addRoom.action',
+            type:'post',
+            data:_data,
+            dataType:'text',
+            success:function (msg) {
+                $("#addModal").modal('hide');
+                $("#tableId").bootstrapTable('refresh');
+                swal({
+                    title:'添加提示',
+                    text:msg,
+                    type:'success'
+                });
+            }
+        });
+    });<!--添加end-->
+
+
+    /*修改房间信息*/
+    $("#updateConfirmId").click(function () {
+        var _data=$("#updateFormId").serialize();
+        $.ajax({
+            url:'../updateRoom.action',
+            type:'post',
+            data:_data,
+            dataType:'text',
+            success:function (msg) {
+                $("#updateModal").modal('hide');
+                $("#tableId").bootstrapTable('refresh');
+                swal({
+                    title:'修改提示',
+                    text:msg,
+                    type:'success'
+                });
+                $("#updateModal").modal('hide');
+                $("#tableId").bootstrapTable('refresh');
+            }
+        });
+    });
+    /*修改导演信息时将数据填入*/
+    $("#updateId").click(function () {
+        var rows=$("#tableId").bootstrapTable('getSelections');
+        if (rows.length < 1) {//没选中
+            swal({
+                title: '修改提示',
+                text: '您还未选中任何修改项',
+                type: 'warning'
+            });
+        } else if (rows.length > 1) {
+            swal({
+                title: '修改提示',
+                text: '每次只能修改一条数据',
+                type: 'warning'
+            });
+        } else {
+            var room = $("#tableId").bootstrapTable("getSelections")[0];
+            $("#updateFormId input[name=id]").val(room.id);
+            $("#updateFormId input[name=num]").val(room.num);
+            // $("#updateFormId textarea").val(director.desc);
+            $("#updateFormId input[name=principal]").val(room.principal);
+            $("#updateFormId input[name=size]").val(room.size);
+            $("#updateFormId input[name=principalphone]").val(room.principalphone);
+            $("#updateModal").modal('show');
+        }
+    });
+
+
+
+
+    /*删除导演开始*/
+    $("#deleteId").click(function () {
+        var rows = $("#tableId").bootstrapTable('getSelections');
+        var _ids = $.map(rows, function (row) {
+            return row.id;
+        });
+        if (rows.length < 1) {
+            swal({
+                title: '删除提示',
+                text: '您还没有选中任何要删除的选项',
+                type: 'error'
+            });
+        } else {
+            $.post('../deleteRoom.action', {ids: _ids.join()}, function (msg) {
+                $("#tableId").bootstrapTable('refresh');
+                swal({
+                    title: '删除提示',
+                    text: msg,
+                    type: 'success'
+                });
+            })
+        }
+    });
+    /*删除导演结束*/
+
+
+
+    /*模糊查询*/
+    $("#searchBtn").click(function () {
+        // alert($('#searchNameId').val());
+        $("#tableId").bootstrapTable('refresh',{
+            url:'../findRoomsByLikeNumOrPrincipal.action',
+            query:{
+                num: $('#searchNameId').val(),
+                principal: $('#searchDescId').val()
+            }
+        });
+    });
+</script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>房间温湿度告警数据</title>
+    <link rel="stylesheet" href="src/css/layui.css">
+    <link rel="stylesheet" href="../bootstrap/common/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/table/css/bootstrap-table.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/sweetalert/css/sweetalert2.css">
+    <link rel="stylesheet" href="../bootstrap/plugin/validator/css/bootstrapValidator.css">
+    <script src="../bootstrap/common/js/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/plugin/sweetalert/js/sweetalert2.js"></script>
+    <script src="../bootstrap/plugin/validator/js/bootstrapValidator.js"></script>
+    <script src="../bootstrap/plugin/validator/js/language/zh_CN.js"></script>
+    <script src="../bootstrap/Vue/vue.js"></script>
+    <script src="../bootstrap/common/js/bootstrap.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table.js"></script>
+    <script src="../bootstrap/plugin/table/js/bootstrap-table-zh-CN.js"></script>
+    <script src="../bootstrap/plugin/table/bootstrap-table-export.js"></script>
+    <script src="../bootstrap/plugin/table/tableExport.js"></script>
+<!--    <script src="../bootstrap/common/js/jquery.base64.js"></script>-->
+
+
+</head>
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Remote Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">实时数据</a></li>
+            <li class="layui-nav-item"><a href="">桌面</a></li>
+            <!--<li class="layui-nav-item"><a href=""><span class="badge bg-red badge-corner">{{alertnum}}</span>  告警</a></li>-->
+            <li class="layui-nav-item"><a href="">常见问题</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件</a></dd>
+                    <dd><a href="">消息</a></dd>
+                    <dd><a href="">授权</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+            <li>
+                <a href="page-profile.html"><i class="fa fa-user"></i>个人</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-wrench"></i>设置</a>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-file"></i>文件</a>
+            </li>
+            <li>
+                <a href="adminlogin.html"><i class="fa fa-power-off"></i>退出登录</a>
+            </li>
+            </dl>
+            </li>
+        </ul>
+    </div>
+
+    <!--<div class="layui-side layui-bg-black"   id="app">-->
+    <!--<div class="layui-side-scroll">-->
+    <!--&lt;!&ndash; 左侧导航区域（可配合layui已有的垂直导航） &ndash;&gt;-->
+    <!--<ul class="layui-nav layui-nav-tree" lay-filter="test">-->
+    <!--<li class="layui-nav-item layui-nav-itemed" >-->
+    <!--<a class="" href="javascript:;">房间信息</a>-->
+    <!--<dl class="layui-nav-child">-->
+    <!--&lt;!&ndash;<dd><a href="javascript:;">当前信息</a></dd>&ndash;&gt;-->
+    <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间一</a></dd>&ndash;&gt;-->
+    <!--&lt;!&ndash;<dd><a href="javascript:;">预留房间二</a></dd>&ndash;&gt;-->
+    <!--<dd v-for="room in rooms"><a href="javascript:;">{{room}}</a></dd>-->
+    <!--</dl>-->
+    <!--</li>-->
+    <!--<li class="layui-nav-item">-->
+    <!--<a href="javascript:;">设备管理</a>-->
+    <!--<dl class="layui-nav-child">-->
+    <!--<dd><a href="javascript:;">报警数据</a></dd>-->
+    <!--<dd><a href="javascript:;">温度调节</a></dd>-->
+    <!--<dd><a href="javascript:;">湿度调节</a></dd>-->
+    <!--&lt;!&ndash;<dd><a href="">超链接</a></dd>&ndash;&gt;-->
+    <!--</dl>-->
+    <!--</li>-->
+    <!--<li class="layui-nav-item">-->
+    <!--<a href="javascript:;">历史数据</a>-->
+    <!--<dl class="layui-nav-child">-->
+    <!--<dd><a href="javascript:;">表格查看</a></dd>-->
+    <!--<dd><a href="javascript:;">图形查看</a></dd>-->
+    <!--</dl>-->
+    <!--</li>-->
+    <!--<li class="layui-nav-item"><a href=""  data-toggle="modal" data-target="#alertdatamodalid" id="alertDataId">异常告警数据       <span style="color:yellow;font-weight:bold"><i class="fa fa-bullhorn" aria-hidden="true" style="color: #1c7430"></i>    {{alertnum}}</span></a></li>-->
+
+    <!--<li class="layui-nav-item">-->
+    <!--<a href="javascript:;">问题反馈</a>-->
+    <!--<dl class="layui-nav-child">-->
+    <!--<dd><a href="javascript:;">上传问题信息</a></dd>-->
+    <!--</dl>-->
+    <!--</li>-->
+
+    <!--<li class="layui-nav-item">-->
+    <!--<a href="javascript:;">系统日志</a>-->
+    <!--<dl class="layui-nav-child">-->
+    <!--<dd><a href="javascript:;">日志信息</a></dd>-->
+    <!--</dl>-->
+    <!--</li>-->
+    <!--<li class="layui-nav-item"><a href="">可扩展模块</a></li>-->
+
+    <!--&lt;!&ndash;<a href=""><span class="badge bg-red badge-corner">{{alertnum}}</span>  告警</a><&ndash;&gt;-->
+    <!--<li class="layui-nav-item"><a href="">。。。</a></li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <div class="layui-side layui-bg-black" id="app">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="remotemonitor.html">房间信息</a>
+                    <dl class="layui-nav-child">
+                        <dd v-for="room in rooms"><a href="#" id="roomnumtxt" @click="creatBar(room)">{{room}}</a></dd>
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">异常数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="alertdata.html">报警数据</a></dd>
+                        <!--<dd><a href="javascript:;">温度调节</a></dd>-->
+                        <!--<dd><a href="javascript:;">湿度调节</a></dd>-->
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">房屋信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="roommanager.html">监测房间管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="" data-toggle="modal" data-target="#alertdatamodalid" id="alertDataId">异常告警数据
+                        <span style="color:yellow;font-weight:bold">
+                            <i class="fa fa-bullhorn" aria-hidden="true" style="color: #1c7430">
+
+                        </i>    {{alertnum}}</span>
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">历史数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">表格查看</a></dd>
+                        <dd><a href="javascript:;">图形查看</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统日志</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">日志信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">可扩展模块</a></li>
+                <li class="layui-nav-item"><a href="">。。。</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 30px;">
+            <div class="tpl-content-wrapper">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                </div>
+                <div class="panel panel-success">
+
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">故障数据</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="name" placeholder="请输入负责人姓名" class="form-control"
+                                       id="searchNameId">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="desc" placeholder="请输入房间编号" class="form-control"
+                                       id="searchDescId">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="button" class="btn btn-primary" value="查看" id="searchBtn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="btn-group" role="group">-->
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal"><span class="glyphicon glyphicon-plus"></span>增加</button>-->
+                <!--<button type="button" class="btn btn-warning" id="updateId"><span class="glyphicon glyphicon-pencil"></span>修改</button>-->
+                <!--<button type="button" class="btn btn-danger" id="deleteId"><span class="glyphicon glyphicon-remove"></span>删除</button>-->
+                <!--</div>-->
+                <div class="row">
+                    <table id="tableId">
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="alertdatamodalid" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">数据温度或湿度不符合标准，请设备管理模块进行查看</h4>
+                </div>
+                <div class="modal-body">
+                    <p5>有异常数据，请至设备管理模块进行查看</p5>
+                </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">已读</button>-->
+                    <a>告警查看</a>
+                    <button type="button" class="btn btn-primary" id="alreadyreadid">已读</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © HouseRemotemonitor.com - 房间远程监控系统
+    </div>
+</div>
+<script src="src/layui.js"></script>
+
+<script>
+    $(function () {
+        new Vue({
+            el: "#app",
+            data: {
+                rooms: [],
+                alertnum: ''
+            },
+            created: function () {
+                this.find()
+            },
+            methods: {
+                find: function () {
+                    var _this = this;
+                    setTimeout(_this.find, 3 * 1000);
+                    $.ajax({
+                        url: '../findAllRoomNums.action',
+                        type: 'post',
+                        dataType: 'json',
+                        success: function (map) {
+                            _this.rooms = map.roomnum;
+                            _this.alertnum = map.alertdatanum;
+                        }
+                    })
+                },
+                // creatBar: function (num) {
+                //     creatBarA(num)
+                // }
+            }
+        })
+    });
+
+
+    /*全查询导演信息*/
+    $("#tableId").bootstrapTable({
+        url: '../findAlertHouses.action',
+        pagination: true,
+        pageSize: 5,
+        pageList: [1, 5, 10],
+        search: false,
+        columns: [
+            {
+                field: '',
+                title: '序号',
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            },
+            {
+                checkbox: true
+            },
+            {
+                field: 'id',
+                title: '编号'
+            },
+            {
+                field: 'num',
+                title: '房间编号'
+            },
+            {
+                field: 'temperature',
+                title: '温度'
+            },
+            {
+                field: 'humidity',
+                title: '湿度'
+            },
+            {
+                field: 'day',
+                title: '日期'
+            },
+            {
+                field: 'time',
+                title: '具体时间'
+            },
+            {
+                field: 'status',
+                title: '异常点'
+            },
+            {
+                field: 'principal',
+                title: '房间负责人'
+            },
+            {
+                field: 'principalphone',
+                title: '房间负责人电话'
+            }
+        ],
+        striped: true,
+        // //导出功能设置（关键代码）
+        exportDataType: 'all',//'basic':当前页的数据, 'all':全部的数据, 'selected':选中的数据
+        showExport: true,  //是否显示导出按钮
+        buttonsAlign: "right",  //按钮位置
+        exportTypes: ['excel'],  //导出文件类型，[ 'csv', 'txt', 'sql', 'doc', 'excel', 'xlsx', 'pdf']
+    });
+
+
+    /*模糊查询*/
+    $("#searchBtn").click(function () {
+        // alert($('#searchNameId').val());
+        $("#tableId").bootstrapTable('refresh', {
+            url: '../findAbnormalHousesDataByRoomPrincipalOrRoomNum.action',
+            query: {
+                principal: $('#searchNameId').val(),
+                num: $('#searchDescId').val()
+            }
+
+        });
+    });
+
+
+    $("#alreadyreadid").click(function () {
+        $.ajax({
+            url: '../updatetempisreader.action',
+            type: 'post',
+            dataType: 'text',
+            success: function (msg) {
+                $("#alertdatamodalid").modal('hide');
+                // $("#tableId").bootstrapTable('refresh');
+                // swal({
+                //     title:'标记',
+                //     text:msg,
+                //     type:'success'
+                // });
+                // $("#updateModal").modal('hide');
+            }
+        });
+    });
+
+    // setInterval(function() {
+    //     // alert(1111)
+    //     $("#content").load(location.href+" #content>*","");
+    // }, 1000);
+</script>
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+</script>
+</body>
+</html>

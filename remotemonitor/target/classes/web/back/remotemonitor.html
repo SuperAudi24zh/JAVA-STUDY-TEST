@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>房间温湿度远程监控</title>
+    <link rel="stylesheet" href="src/css/layui.css">
+    <link rel="stylesheet" href="../bootstrap/common/css/bootstrap.css">
+    <script src="../bootstrap/common/js/bootstrap.js"></script>
+    <script src="../bootstrap/common/js/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/common/js/echarts.js"></script>
+    <script src="../bootstrap/Vue/vue.js"></script>
+
+    <!--<script src="../bootstrap/common/js/echarts-all.js"></script>-->
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">Remote Monitor</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">实时数据</a></li>
+            <li class="layui-nav-item"><a href="">桌面</a></li>
+            <li class="layui-nav-item"><a href="">常见问题</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件</a></dd>
+                    <dd><a href="">消息</a></dd>
+                    <dd><a href="">授权</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    Admin
+                </a>
+                <dl class="layui-nav-child">
+            <li>
+                <a href="page-profile.html"><i class="fa fa-user"></i>个人</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-wrench"></i>设置</a>
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-file"></i>文件</a>
+            </li>
+            <li>
+                <a href="adminlogin.html"><i class="fa fa-power-off"></i>退出登录</a>
+            </li>
+            </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black" id="app">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">房间信息</a>
+                    <dl class="layui-nav-child">
+                        <dd v-for="room in rooms"><a href="#" id="roomnumtxt" @click="creatBar(room)">{{room}}</a></dd>
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">异常数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="alertdata.html">报警数据</a></dd>
+                        <!--<dd><a href="javascript:;">温度调节</a></dd>-->
+                        <!--<dd><a href="javascript:;">湿度调节</a></dd>-->
+                        <!--<dd><a href="">超链接</a></dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">房屋信息</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="roommanager.html">监测房间管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href=""  data-toggle="modal" data-target="#alertdatamodalid" id="alertDataId">异常告警数据
+                        <span style="color:yellow;font-weight:bold">
+                            <i class="fa fa-bullhorn" aria-hidden="true" style="color: #1c7430">
+
+                        </i>    {{alertnum}}</span>
+                    </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">历史数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">表格查看</a></dd>
+                        <dd><a href="javascript:;">图形查看</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统日志</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">日志信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">可扩展模块</a></li>
+                <li class="layui-nav-item"><a href="">。。。</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 30px;">
+            <div class="tpl-content-wrapper">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"></h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="name" placeholder="请输入查询月份" class="form-control"
+                                       id="searchNameId">
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="button" class="btn btn-primary" value="提交查询" id="searchBtn">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div id="echartsdivid" style="height: 600px;width: auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © HouseRemotemonitor.com - 房间远程监控系统
+    </div>
+</div>
+<script src="src/layui.js"></script>
+
+<script>
+    $(function () {
+        new Vue({
+            el: "#app",
+            data: {
+                rooms: [],
+                alertnum: '',
+                num:''
+            },
+            created: function () {
+                this.find()
+            },
+
+            methods: {
+                find: function () {
+                    var _this = this;
+                    setTimeout(_this.find, 5 * 1000);
+                    $.ajax({
+                        url: '../findAllRoomNums.action',
+                        type: 'post',
+                        dataType: 'json',
+                        success: function (map) {
+                            _this.rooms = map.roomnum;
+                            _this.alertnum = map.alertdatanum;
+                        }
+                    })
+                },
+                creatBar:function(num){
+                    var _this = this;
+                    _this.num = num;
+                    _this.creatLine()
+                },
+                creatLine:function(){
+                    var _this = this;
+                    setTimeout(_this.creatLine, 5 * 1000);
+                    _this.tempmethods(_this.num)
+                },
+                tempmethods:function (num) {
+                    var mychar = echarts.init(document.getElementById("echartsdivid"));
+                    $.ajax({
+                        url: '../findAllHousesByHouseIp.action',
+                        type: 'post',
+                        data: {num:num},
+                        dataType: 'json',
+                        success: function (map) {
+                            // alert("%^&*&^%$##%^&123========")
+                            option = {
+                                title: {
+                                    text: '房间温湿度折线图',
+                                    subtext: '数据来自数据库模拟数据',
+                                    left: 'center',
+                                    align: 'right'
+                                },
+                                grid: {
+                                    bottom: 80
+                                },
+                                toolbox: {
+                                    feature: {
+                                        dataZoom: {
+                                            yAxisIndex: 'none'
+                                        },
+                                        restore: {},
+                                        saveAsImage: {}
+                                    }
+                                },
+                                tooltip: {
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        animation: false,
+                                        label: {
+                                            backgroundColor: '#505765'
+                                        }
+                                    }
+                                },
+                                legend: {
+                                    data: ['温度', '湿度'],
+                                    left: 10
+                                },
+                                dataZoom: [
+                                    {
+                                        show: true,
+                                        realtime: true,
+                                        start: 65,
+                                        end: 85
+                                    },
+                                    {
+                                        type: 'inside',
+                                        realtime: true,
+                                        start: 65,
+                                        end: 85
+                                    }
+                                ],
+                                xAxis: [
+                                    {
+                                        type: 'category',
+                                        boundaryGap: false,
+                                        axisLine: {onZero: false},
+                                        data: map.dayandtime.map(function (str) {
+                                            return str.replace(' ', '\n');
+                                        })
+                                    }
+                                ],
+                                yAxis: [
+                                    {
+                                        name: '温度(m^3/s)',
+                                        type: 'value',
+                                        max: 40
+                                    },
+                                    {
+                                        name: '湿度(mm)',
+                                        nameLocation: 'start',
+                                        max: 50,
+                                        type: 'value',
+                                        inverse: true
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: '温度',
+                                        type: 'line',
+                                        animation: false,
+                                        areaStyle: {},
+                                        lineStyle: {
+                                            width: 1
+                                        },
+                                        data: map.keytempperature
+                                    },
+                                    {
+                                        name: '湿度',
+                                        type: 'line',
+                                        yAxisIndex: 1,
+                                        animation: false,
+                                        areaStyle: {},
+                                        lineStyle: {
+                                            width: 1
+                                        },
+                                        data: map.keyhumidity
+                                    }
+                                ]
+                            };
+                            mychar.setOption(option);
+                            window.onresize = mychar.resize;
+                        }
+                    })
+                }
+            }
+        })
+    });
+    // $(function () {
+    //     new Vue({
+    //         el: "#app",
+    //         data: {
+    //             rooms: [],
+    //             alertnum: ''
+    //         },
+    //         created: function () {
+    //             this.find()
+    //         },
+    //         methods: {
+    //             find: function () {
+    //                 var _this = this;
+    //                 setTimeout(_this.find, 3 * 1000);
+    //                 $.ajax({
+    //                     url: '../findAllRoomNums.action',
+    //                     type: 'post',
+    //                     dataType: 'json',
+    //                     success: function (map) {
+    //                         _this.rooms = map.roomnum;
+    //                         _this.alertnum = map.alertdatanum;
+    //                     }
+    //                 })
+    //             },
+    //             creatBar:function(num){
+    //                 creatBarA(num)
+    //             }
+    //         }
+    //     })
+    // });
+    //
+    //
+    // function creatBarA(num) {
+    //     // alert(num)
+    //     var mychar = echarts.init(document.getElementById("echartsdivid"));
+    //     // alert($('#roomnumtxt').text())
+    //     // $.post('../findAllHouses.action', function (map) {
+    //     // $.post('../findAllHouse.action', {name:$('#searchName').val(),price:$("#searchPrice").val()},function (map) {
+    //     $.post('../findAllHousesByHouseIp.action', {num: num}, function (map) {
+    //         // alert(123)
+    //         option = {
+    //             title: {
+    //                 text: '房间温湿度折线图',
+    //                 subtext: '数据来自数据库模拟数据',
+    //                 left: 'center',
+    //                 align: 'right'
+    //             },
+    //             grid: {
+    //                 bottom: 80
+    //             },
+    //             toolbox: {
+    //                 feature: {
+    //                     dataZoom: {
+    //                         yAxisIndex: 'none'
+    //                     },
+    //                     restore: {},
+    //                     saveAsImage: {}
+    //                 }
+    //             },
+    //             tooltip: {
+    //                 trigger: 'axis',
+    //                 axisPointer: {
+    //                     type: 'cross',
+    //                     animation: false,
+    //                     label: {
+    //                         backgroundColor: '#505765'
+    //                     }
+    //                 }
+    //             },
+    //             legend: {
+    //                 data: ['温度', '湿度'],
+    //                 left: 10
+    //             },
+    //             dataZoom: [
+    //                 {
+    //                     show: true,
+    //                     realtime: true,
+    //                     start: 65,
+    //                     end: 85
+    //                 },
+    //                 {
+    //                     type: 'inside',
+    //                     realtime: true,
+    //                     start: 65,
+    //                     end: 85
+    //                 }
+    //             ],
+    //             xAxis: [
+    //                 {
+    //                     type: 'category',
+    //                     boundaryGap: false,
+    //                     axisLine: {onZero: false},
+    //                     data: map.keytime.map(function (str) {
+    //                         return str.replace(' ', '\n');
+    //                     })
+    //                 }
+    //             ],
+    //             yAxis: [
+    //                 {
+    //                     name: '温度(m^3/s)',
+    //                     type: 'value',
+    //                     max: 40
+    //                 },
+    //                 {
+    //                     name: '湿度(mm)',
+    //                     nameLocation: 'start',
+    //                     max: 50,
+    //                     type: 'value',
+    //                     inverse: true
+    //                 }
+    //             ],
+    //             series: [
+    //                 {
+    //                     name: '温度',
+    //                     type: 'line',
+    //                     animation: false,
+    //                     areaStyle: {},
+    //                     lineStyle: {
+    //                         width: 1
+    //                     },
+    //                     // markArea: {
+    //                     //     silent: true,
+    //                     //     data: [[{
+    //                     //         xAxis: '2009/9/12\n7:00'
+    //                     //     }, {
+    //                     //         xAxis: '2009/9/22\n7:00'
+    //                     //     }]]
+    //                     // },
+    //                     data: map.keytempperature
+    //                 },
+    //                 {
+    //                     name: '湿度',
+    //                     type: 'line',
+    //                     yAxisIndex: 1,
+    //                     animation: false,
+    //                     areaStyle: {},
+    //                     lineStyle: {
+    //                         width: 1
+    //                     },
+    //                     // markArea: {
+    //                     //     silent: true,
+    //                     //     data: [
+    //                     //         [{
+    //                     //             xAxis: '2009/9/10\n7:00'
+    //                     //         }, {
+    //                     //             xAxis: '2009/9/20\n7:00'
+    //                     //         }]
+    //                     //     ]
+    //                     // },
+    //                     data: map.keyhumidity
+    //                 }
+    //             ]
+    //         };
+    //
+    //         mychar.setOption(option);
+    //         window.onresize = mychar.resize;
+    //     });
+    // }
+
+
+</script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
+</body>
+</html>

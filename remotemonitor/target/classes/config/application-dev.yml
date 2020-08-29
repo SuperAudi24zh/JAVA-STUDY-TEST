@@ -1,0 +1,22 @@
+server:
+  port: 8090
+web.upload: D:/upload/
+spring:
+  resources:
+    static-locations: classpath:/static/,classpath:/web/,file:${web.upload}
+  servlet:
+    multipart:
+      max-request-size: 200MB
+      max-file-size: 200MB
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/monitor_db
+mybatis:
+  mapper-locations: classpath:mybatis/*.mapper.xml
+  type-aliases-package: com.xufe.remotemonitor.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+pagehelper:
+  reasonable: true

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理员登录页面</title>
+    <link rel="stylesheet" href="../frontcss/css/index.css"/>
+    <link rel="stylesheet" href="../bootstrap/common/css/bootstrap.css">
+    <script src="../bootstrap/common/js/jquery-3.2.1.js"></script>
+    <script src="../bootstrap/common/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../bootstrap/plugin/sweetalert/css/sweetalert2.css">
+    <script src="../bootstrap/plugin/sweetalert/js/sweetalert2.js"></script>
+    <link rel="stylesheet" href="../bootstrap/plugin/validator/css/bootstrapValidator.css">
+    <script src="../bootstrap/plugin/validator/js/bootstrapValidator.js"></script>
+    <script src="../bootstrap/plugin/validator/js/language/zh_CN.js"></script>
+</head>
+
+<body>
+<img src="../frontcss/img/bgImg.jpg" class="bgImg"/>
+
+<div class="content">
+    <div class="bidTitle">管理员登录</div>
+    <div class="logCon">
+
+        <form method="post" id="userloginForm">
+            <div class="line"><span>账号:</span>
+                <input class="bt_input" type="text" name="name" id="usernameid"/></div>
+            <div class="line"><span>密码:</span>
+                <input class="bt_input" type="password" name="password" id="passwordid"/></div>
+            <button type="button" class="logingBut" id="userloginconfirmBtn">登录</button>
+            <!--<a class="btn btn-default" href="register.html" role="button">没有账号，进行注册</a>-->
+        </form>
+
+
+    </div>
+</div>
+
+
+<script>
+    $("input[type='password']").blur(function () {
+        var value = $(this).val();
+        var pattern = /^[0-9]{6}$/;
+        if (pattern.test(value)) {
+            $("#passwordSpan").addClass("glyphicon glyphicon-ok");
+        } else {
+            $("#passwordSpan").text("错误").css("color", "white");
+        }
+    });
+    $("#userloginconfirmBtn").click(function () {
+        $.ajax({
+            type: 'post',
+            url: '../adminlogin.action',
+            data: {username: $("#usernameid").val(), password: $("#passwordid").val()},
+            success: function (msg) {
+                if (msg == "成功") {
+                    swal({
+                        title: '登录信息提示',
+                        text: msg,
+                        type: 'success'
+                    });
+                    window.location.href = "remotemonitor.html";
+                } else {
+                    swal({
+                        title: '登录信息提示',
+                        text: msg,
+                        type: 'error'
+                    });
+                    window.location.href = "adminlogin.html";
+                }
+            }
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
